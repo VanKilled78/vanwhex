@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANWHHEX PAY</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Background Animation */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ff0080, #0000ff, #ff0000, #ff8000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .payment-container {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .payment-method:hover::before {
+            left: 100%;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .payment-method img {
+            width: 50px;
+            height: 50px;
+            margin-right: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+        }
+
+        .payment-method span {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .payment-details {
+            display: none;
+            margin-top: 1.5rem;
+            text-align: left;
+            color: #fff;
+        }
+
+        .payment-details p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .confirm-button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background: #25d366;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.8);
+        }
+
+        .confirm-button:hover {
+            background: #128c7e;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.8);
+        }
+
+        .back-button {
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: #ff4757;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.8);
+        }
+
+        .back-button:hover {
+            background: #ff6b81;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
+        }
+
+        .store-logo {
+            margin-top: 2rem;
+        }
+
+        .store-logo a {
+            display: inline-block;
+        }
+
+        .store-logo img {
+            width: 150px;
+            height: auto;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        }
+
+        .store-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Nama Pemilik Website */
+        .owner-name {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .payment-container {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 1.5rem;
+            }
+
+            .payment-method {
+                padding: 1rem;
+            }
+
+            .payment-method img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .payment-method span {
+                font-size: 1rem;
+            }
+
+            .store-logo img {
+                width: 120px;
+            }
+
+            .owner-name {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Animation -->
+    <div id="particles-js"></div>
+
+    <!-- Payment Container -->
+    <div class="payment-container">
+        <!-- Nama Toko -->
+        <h1>VANWHHEX PAY</h1>
+
+        <!-- Daftar Metode Pembayaran -->
+        <div class="payment-methods">
+            <!-- DANA -->
+            <div class="payment-method" onclick="showDetails('dana')">
+                <img src="https://files.catbox.moe/kzi0ts.png" alt="DANA">
+                <span>DANA</span>
+            </div>
+            <div id="dana-details" class="payment-details">
+                <p>Nomor DANA: <strong>08xxxxxxxx</strong></p>
+                <p>Atas Nama: <strong>xxxx</strong></p>
+                <button class="confirm-button" onclick="redirectToWhatsApp('DANA')">Sudah Transfer</button>
+                <button class="back-button" onclick="hideDetails('dana')">Kembali</button>
+            </div>
+
+            <!-- OVO -->
+            <div class="payment-method" onclick="showDetails('ovo')">
+                <img src="https://files.catbox.moe/3lm39k.png" alt="OVO">
+                <span>OVO</span>
+            </div>
+            <div id="ovo-details" class="payment-details">
+                <p>Nomor OVO: <strong>08xxxxxxxx</strong></p>
+                <p>Atas Nama: <strong>xxxx</strong></p>
+                <button class="confirm-button" onclick="redirectToWhatsApp('OVO')">Sudah Transfer</button>
+                <button class="back-button" onclick="hideDetails('ovo')">Kembali</button>
+            </div>
+
+            <!-- GoPay -->
+            <div class="payment-method" onclick="showDetails('gopay')">
+                <img src="https://files.catbox.moe/x9gq05.png" alt="GoPay">
+                <span>GoPay</span>
+            </div>
+            <div id="gopay-details" class="payment-details">
+                <p>Nomor GoPay: <strong>08xxxxxxxx</strong></p>
+                <p>Atas Nama: <strong>xxxxx</strong></p>
+                <button class="confirm-button" onclick="redirectToWhatsApp('GoPay')">Sudah Transfer</button>
+                <button class="back-button" onclick="hideDetails('gopay')">Kembali</button>
+            </div>
+        </div>
+
+        <!-- Logo Toko -->
+        <div class="store-logo">
+            <a href="https://files.catbox.moe/bs4t0l.png" target="_blank">
+                <img src="https://files.catbox.moe/bs4t0l.png" alt="Logo Toko">
+            </a>
+        </div>
+
+        <!-- Nama Pemilik Website -->
+        <div class="owner-name">
+            ©<strong>VANWHHEX HOSTING</strong>
+        </div>
+    </div>
+
+    <!-- Particles.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Fungsi untuk menampilkan detail pembayaran
+        function showDetails(paymentMethod) {
+            // Sembunyikan semua detail pembayaran
+            document.querySelectorAll('.payment-details').forEach(detail => {
+                detail.style.display = 'none';
+            });
+
+            // Tampilkan detail pembayaran yang dipilih
+            document.getElementById(`${paymentMethod}-details`).style.display = 'block';
+        }
+
+        // Fungsi untuk menyembunyikan detail pembayaran
+        function hideDetails(paymentMethod) {
+            document.getElementById(`${paymentMethod}-details`).style.display = 'none';
+        }
+
+        // Fungsi untuk mengarahkan ke WhatsApp
+        function redirectToWhatsApp(paymentMethod) {
+            const phoneNumber = "6281234567890"; // Nomor WhatsApp Anda
+            const message = `Halo, saya sudah transfer menggunakan ${paymentMethod}. Mohon konfirmasi.`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.location.href = whatsappUrl;
+        }
+
+        // Particles.js Configuration
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 6,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
